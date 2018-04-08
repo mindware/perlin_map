@@ -12,5 +12,10 @@ gem 'pry'
 
 # Marshalling to json
 gem 'oj'
-
 gem 'factory_bot'
+
+gem 'perlin_noise'
+gem 'perlin' 
+gem 'chunky_png'
+
+gem 'colorize'
