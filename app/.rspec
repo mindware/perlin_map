@@ -1,0 +1,1 @@
+--require spec_helper --require app_helper --color --format documentation
