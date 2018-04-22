@@ -4,13 +4,8 @@ require 'colorize'
 require 'time'
 
 def biome(elevation, moisture)
-<<<<<<< HEAD
-  return :ocean if elevation <= 0.35
-  return :water if elevation <= 0.53
-=======
   return :ocean if elevation <= 0.45
   return :water if elevation <= 0.56
->>>>>>> 46208cc286fba6c35fd856a4b2daa242aadb93e0
   return :beach if elevation <= 0.60
  
   if elevation > 0.95
@@ -38,11 +33,7 @@ def biome(elevation, moisture)
     return :mudland     if moisture < 0.96
     return :water      
   end
-<<<<<<< HEAD
-  if elevation > 0.53
-=======
   if elevation > 0.58
->>>>>>> 46208cc286fba6c35fd856a4b2daa242aadb93e0
     return :desert              if moisture < 0.10
     return :grassland           if moisture < 0.40
     return :mudland             if moisture < 0.42
@@ -94,12 +85,6 @@ def pixel(value)
   end
 end
 
-def percentage(number, original)
-   number = number.to_f
-   original = original.to_f
-   return ((number - original) / original) * 100
-end
-
 #############################
 #         Setup:            #
 #############################
@@ -117,21 +102,6 @@ moisture_seed  = 995732500100045
 
 # Perlin Noise Layers setup:
 contrast_increase = 2
-<<<<<<< HEAD
-#limit = 0.009
-limit = 0.0005
-
-# Perlin Noise and PNG Image setup:
-# width, height  = 256, 256
-#width, height  = 16, 16
-#width, height  = 4096, 2048
-width, height  = 2048, 1024
-zoom = 1
-
-# Image transparency 
-transparency = 1.0
-
-=======
 limit = 0.009
 
 
@@ -139,16 +109,11 @@ limit = 0.009
 width, height  = 256, 256
 width, height  = 256, 256
 
->>>>>>> 46208cc286fba6c35fd856a4b2daa242aadb93e0
 # Map Offset:
 #offset_y = width / 2
 #offset_y = width / 2
 offset_y = 0
-<<<<<<< HEAD
-offset_x = 0 
-=======
 offset_x = -128
->>>>>>> 46208cc286fba6c35fd856a4b2daa242aadb93e0
 
 #width, height  = 2048, 2048
 
@@ -176,26 +141,12 @@ else
 end
 
 # PNG Image setup:
-<<<<<<< HEAD
-if zoom > 0
-  png = ChunkyPNG::Image.new(width * zoom, height * zoom, ChunkyPNG::Color::WHITE)
-  puts "Image: map.png (#{width * zoom} x #{height * zoom})"
-else
-  png = ChunkyPNG::Image.new(width, height, ChunkyPNG::Color::WHITE)
-  puts "Image: map.png (#{width} x #{height})"
-end
-
-image_name = Time.now.utc.iso8601.to_s.gsub(":", "-")
-image_name += "#{elevation_seed}-#{moisture_seed}.png"
-
-=======
 png = ChunkyPNG::Image.new(width, height, ChunkyPNG::Color::WHITE)
 image_name = Time.now.utc.iso8601.to_s.gsub(":", "-")
 image_name += "#{elevation_seed}-#{moisture_seed}.png"
 
 puts "Image: map.png (#{width} x #{height})"
 
->>>>>>> 46208cc286fba6c35fd856a4b2daa242aadb93e0
 contrast = Perlin::Curve.contrast(Perlin::Curve::CUBIC, contrast_increase) 
 (height).times do |y|
   (width).times do |x|
@@ -205,33 +156,18 @@ contrast = Perlin::Curve.contrast(Perlin::Curve::CUBIC, contrast_increase)
     m = moisture[xx * limit, yy * limit]
     # get biome for coordinate point
     point = pixel(biome(contrast.call(e), contrast.call(m)))
-    # ascii version: 
-    #print point[0]
+    # print ascii:
+    print point[0]
     # print image with coords as pixel:
-    color = ChunkyPNG::Color("#{point[1]} @ #{transparency}")
-    if(zoom > 0)
-      (0..(zoom - 1)).each do |zi|
-        (0..(zoom - 1)).each do |zj|
-          count += 1
-          zy = (y * zoom) + zi
-          zx = (x * zoom) + zj
-          png[zx,zy] = color
-        end
-      end 
-    else
-      count += 1
-      png[x,y] = color
-    end
-    #print "\t"
+    color = ChunkyPNG::Color("#{point[1]} @ 1.0")
+    png[x,y] = color
+
     # metrics:
     lowest  = elevation[xx,yy] if elevation[xx,yy] < lowest
     highest = elevation[xx,yy] if elevation[xx,yy] > highest
-<<<<<<< HEAD
-    printf("\rPercentage: %d (#{count})", percentage(count, (width + height)))
-=======
     count += 1
->>>>>>> 46208cc286fba6c35fd856a4b2daa242aadb93e0
   end
+  puts ""
 end
 
 puts "\ncount: #{count}\thigh: #{highest}\tlow: #{lowest}"
